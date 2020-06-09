@@ -1,28 +1,23 @@
+import moment from 'moment'
 import React from 'react'
 
-const Break = () => {
-    const [breakLength, setBreakLength] = React.useState(300)
+const Break = ({
+    breakLength,
+    setBreakLength,
+    incrementBreakLengthByOneMinute,
+    decrementBreakLengthByOneMinute }) => {
 
-    const decrementBreakLengthByOneMinute = () => {
-        const newBreakLength = breakLength - 60
-
-        if (newBreakLength < 0 ) {
-            setBreakLength(0)
-        } else {
-            setBreakLength(newBreakLength)
-        }
-    }
-
-    const incrementBreakLengthByOneMinute = () => {
-       setBreakLength(breakLength + 60)
-    }
-
+    const breakLengthInMinutes = moment.duration(breakLength, 's').asMinutes()
     return (
         <div>
-            <p id="break-label">Break</p>
-            <p id="break-length">{breakLength}</p>
-            <button onClick={incrementBreakLengthByOneMinute} id="break-increment">+</button>
-            <button onClick={decrementBreakLengthByOneMinute} id="break-decrement">-</button>
+            <div className="card text-center">
+                <p className="card-header"id="break-label">Break Length</p>
+                <span className="card-body" id="break-length">{breakLengthInMinutes} {breakLengthInMinutes>1?"minutes":"minute"}</span>
+                <div>
+                    <button className="btn btn-info col-md-6" onClick={decrementBreakLengthByOneMinute} id="break-decrement">-</button>
+                    <button className="btn btn-info col-md-6" onClick={incrementBreakLengthByOneMinute} id="break-increment">+</button>
+                </div>
+            </div>
         </div>
     )
 }
