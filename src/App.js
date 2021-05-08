@@ -54,15 +54,12 @@ function App() {
 
     React.useEffect(() => {
         setTimeLeft(sessionLength);
-        setCurrentSessionType("Break");
-        if (isStarted) {
-            handleStartStopClick();
-        }
     }, [sessionLength]);
 
     React.useEffect(() => {
         if (timeLeft === 0) {
             audioElement.current.play();
+            console.log("this is called");
 
             if (currentSessionType === "Session") {
                 setCurrentSessionType("Break");
@@ -74,30 +71,31 @@ function App() {
         }
     }, [timeLeft, breakLength, sessionLength]);
 
-    const isStarted = intervalId != null;
+    const [isStarted, setIsStarted] = React.useState(false);
 
     const handleStartStopClick = () => {
-        if (isStarted) {
-            // if we are in started mode:
-            // we want to stop the timer
-            // clearInterval
-            clearInterval(intervalId);
-            setIntervalId(null);
-        } else {
-            // if we are in stopped mode:
-            // decrement timeleft by one every secon (1000ms)
-            // to do this we'll use setInterval
-            const newIntervalId = setInterval(() => {
-                setTimeLeft((prevTimeLeft) => {
-                    const newTimeLeft = prevTimeLeft - 1;
-                    if (newTimeLeft >= 0) {
-                        return newTimeLeft;
-                    }
-                });
-            }, 1000);
+        setIsStarted(!isStarted);
+        // if (isStarted) {
+        //     // if we are in started mode:
+        //     // we want to stop the timer
+        //     // clearInterval
+        //     isStarted = false;
+        // } else {
+        //     // if we are in stopped mode:
+        //     // decrement timeleft by one every secon (1000ms)
+        //     // to do this we'll use setInterval
+        //     // const newIntervalId = setInterval(() => {
+        //     //     setTimeLeft((prevTimeLeft) => {
+        //     //         const newTimeLeft = prevTimeLeft - 1;
+        //     //         if (newTimeLeft >= 0) {
+        //     //             return newTimeLeft;
+        //     //         }
+        //     //     });
+        //     // }, 1000);
 
-            setIntervalId(newIntervalId);
-        }
+        //     // setIntervalId(newIntervalId);
+        //     isStarted = true;
+        // }
     };
 
     const handleResetButton = () => {
@@ -140,6 +138,7 @@ function App() {
                         handleStartStopClick={handleStartStopClick}
                         isStarted={isStarted}
                         handleResetButton={handleResetButton}
+                        setTimeLeft={setTimeLeft}
                     />
                 </div>
                 <div className="col-md-4">
