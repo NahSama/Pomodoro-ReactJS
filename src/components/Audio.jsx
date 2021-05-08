@@ -15,7 +15,7 @@ const Audio = ({audioElement}) => {
     }
 
     return (
-        <div>
+        <div className="text-white">
             <label for="ringtone" >Choose your ringtone</label>
             <select className="form-control" value={selectedAudio} onChange={updateSelectedAudio} >
                 <option value="0">Default</option>
